@@ -1,0 +1,12 @@
+##  Preprocessing
+
+We opened the CSV files to manually view and study the provided data. We developed a rough idea of the entries and their nature. Different imputation strategies were employed for city and station data as well as hourly and daily observations.
+
+| S. No. | Data File     | Imputation Strategy | Explanation |
+|--------|--------------|--------------------|-------------|
+| 1. | station_day | Forward/Backwards Fill for the days where a non-null value exists within 2 days. <br> Station Monthly Median for remaining NULL values having at least one non-null value in that month. <br> City Monthly Median for remaining NULL values having at least one non-null value in that month. <br> City Seasonal Median for remaining NULL values having at least one non-null value in that season. <br> The remaining NaN values were flagged and excluded from further analysis. | Forward/Backwards Fill preserves the local trend, assuming no drastic change from day to day. <br> Station Monthly Median is the next best estimate if a short-term trend is not available. <br> Assuming intra-city monthly air quality patterns are similar, using City Monthly Median provides a broader context. <br> As a last resort, City Seasonal Median was used to capture the macro-seasonal trend. <br> Imputing remaining gaps could have introduced bias, so they are flagged as missing. |
+| 2. | city_day | Forward/Backwards Fill for the days where a non-null value exists within 5 days. <br> City Monthly Median for remaining NULL values having at least one non-null value in that month. <br> City Seasonal Median for remaining NULL values having at least one non-null value in that season. <br> The remaining NaN values were flagged. | Since city-level data is much more stable than station-level data, the window for forward/backward fill is increased. <br> To protect the aggregate integrity, the imputation layers are reduced in size. |
+| 3. | station_hour | Only the primary pollutants were considered for imputation. <br> Linear Interpolation for gaps less than 4 hours. <br> For gaps of length 5-12 hours, the previous day's mean. <br> Long gaps were flagged (more than 18 hours of missing data). | Over very short periods, air quality changes are assumed to be smooth. <br> A gap of over 18 hours is not imputed to protect data quality. |
+| 4. | city_hour | Same strategy as station_hour. | -- |
+
+For each of the data sheets, the AQI values and buckets were recalculated after imputations using the CPCB standards.
