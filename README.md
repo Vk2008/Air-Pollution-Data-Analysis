@@ -171,8 +171,8 @@ An interactive dashboard was developed to:
 ---
 
 ## 🧑‍💻 Team
-- Aayush Agarwal
-- Akshara Jain
+- [Aayush Agarwal](https://github.com/AayushAgarwal-IITDelhi)
+- [Akshara Jain](https://github.com/quanta108)
 - [Vanshika Kataria](https://github.com/Vk2008)
 
 ---
